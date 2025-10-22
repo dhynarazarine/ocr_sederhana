@@ -81,7 +81,7 @@ Struktur folder di dalam proyek Flutter:
 
 ### 3️⃣ Amati hasil OCR yang muncul.
 📸 **Screenshot:**  
-![Hasil OCR](assets/prak1.png)
+![Hasil OCR](assets/prak 1.png)
 
 ---
 
@@ -89,8 +89,8 @@ Struktur folder di dalam proyek Flutter:
 
 a. **Apakah semua teks terbaca dengan akurat? Mengapa?**  
 📸 **Screenshot:**  
-![Analisis Akurasi OCR](assets/tugas_prak_2.png)  
-![Analisis Tambahan](assets/prak_2.png)
+![Analisis Akurasi OCR](assets/tugas prak 2.png)  
+![Analisis Tambahan](assets/prak 2.png)
 
 Tidak semua teks terbaca dengan akurat.  
 Tingkat akurasi OCR bergantung pada kualitas gambar, pencahayaan, kontras teks, serta jenis dan ukuran font.  
