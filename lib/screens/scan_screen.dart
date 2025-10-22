@@ -25,6 +25,7 @@ class _ScanScreenState extends State<ScanScreen> {
     _initCamera();
   }
 
+  // Inisialisasi kamera
   void _initCamera() async {
     cameras = await availableCameras();
     _controller = CameraController(cameras[0], ResolutionPreset.medium);
@@ -40,48 +41,78 @@ class _ScanScreenState extends State<ScanScreen> {
     super.dispose();
   }
 
+  // Fungsi untuk memproses gambar dan melakukan OCR
   Future<String> _ocrFromFile(File imageFile) async {
     final inputImage = InputImage.fromFile(imageFile);
     final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-    final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
     textRecognizer.close();
     return recognizedText.text;
   }
 
- Future<void> _takePicture() async {
-  try {
-    await _initializeControllerFuture;
+  // Fungsi untuk mengambil foto dan memproses hasil OCR
+  Future<void> _takePicture() async {
+    try {
+      await _initializeControllerFuture;
+      if (!mounted) return;
 
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Memproses OCR, mohon tunggu...'), duration: Duration(seconds: 2)),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Memproses OCR, mohon tunggu...'),
+          duration: Duration(seconds: 2),
+        ),
+      );
 
-    // tambahkan ! karena _controller nullable
-    final XFile image = await _controller!.takePicture();
+      final XFile image = await _controller!.takePicture();
+      final ocrText = await _ocrFromFile(File(image.path));
 
-    final ocrText = await _ocrFromFile(File(image.path));
+      if (!mounted) return;
 
-    if (!mounted) return;
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => ResultScreen(ocrText: ocrText)),
-    );
-  } catch (e) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error saat mengambil/memproses foto: $e')),
-    );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ResultScreen(ocrText: ocrText),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      // 🔹 Pesan Error telah diubah sesuai instruksi
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Pemindaian Gagal! Periksa Izin Kamera atau coba lagi.',
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
+    // Jika kamera belum siap, tampilkan layar loading
     if (_controller == null || !_controller!.value.isInitialized) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        backgroundColor: Colors.grey[900],
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              CircularProgressIndicator(color: Colors.yellow),
+              SizedBox(height: 20),
+              Text(
+                'Memuat Kamera... Harap tunggu.',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
+    // Jika kamera siap, tampilkan tampilan kamera
     return Scaffold(
       appBar: AppBar(title: const Text('Kamera OCR')),
       body: Column(
