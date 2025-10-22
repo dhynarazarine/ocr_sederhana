@@ -16,7 +16,7 @@ Tahun Ajaran 2025/2026
 ### **Langkah 1: Buat Proyek Baru**
 Membuat proyek Flutter baru dengan nama **OCR App** 
 📸 **Screenshot:**  
-[Langkah 1] (assets/1.png)
+(assets/1.png)
 
 ```
 
@@ -25,17 +25,17 @@ Membuat proyek Flutter baru dengan nama **OCR App**
 ### **Langkah 2: Tambahkan Plugin**
 Menambahkan dependensi **Google ML Kit OCR** ke dalam file `pubspec.yaml`:
 📸 **Screenshot:**  
-[Langkah 2] (assets/2.png)
+(assets/2.png)
 Kemudian menjalankan:
 📸 **Screenshot:**  
-[Langkah 3] (assets/3.png)
+(assets/3.png)
 
 ---
 
 ### **Langkah 3: Tambahkan Izin Kamera (Android)**
 Buka file:
 📸 **Screenshot:**  
-[Langkah 4] (assets/4.png)
+(assets/4.png)
 
 
 ---
